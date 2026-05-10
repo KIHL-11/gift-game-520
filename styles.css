@@ -1369,6 +1369,48 @@ button {
   .collect-card {
     display: none;
   }
+
+  .decor-real-cat {
+    left: 12px;
+    top: 86px;
+    width: 108px;
+    opacity: 0.72;
+  }
+
+  .decor-real-dog {
+    right: 12px;
+    bottom: 54px;
+    width: 108px;
+    opacity: 0.72;
+  }
+
+  .cutout-labubu-big {
+    left: 10px;
+    top: 210px;
+    width: 82px;
+  }
+
+  .cutout-labubu-prince {
+    right: 14px;
+    top: 220px;
+    width: 72px;
+  }
+
+  .cutout-star-pudding,
+  .cutout-zsiga-red {
+    left: 18px;
+    top: auto;
+    bottom: 210px;
+    width: 66px;
+  }
+
+  .cutout-star-hidden,
+  .cutout-hirono-tv {
+    right: 18px;
+    top: auto;
+    bottom: 204px;
+    width: 66px;
+  }
 }
 
 @media (max-width: 640px) {
@@ -1614,15 +1656,92 @@ button {
   }
 
   .decor-gazi,
-  .decor-zsiga,
-  .toy-cutout {
+  .decor-zsiga {
     display: none;
   }
 
   .decor-cassette,
-  .decor-game-card,
+  .decor-game-card {
+    display: none;
+  }
+
   .decor-real-cat,
+  .decor-real-dog,
+  .toy-cutout {
+    display: block;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .decor-real-cat {
+    left: -7px;
+    top: 10px;
+    width: 64px;
+    padding: 4px 4px 12px;
+    border-width: 2px;
+    border-radius: 8px;
+    box-shadow: 4px 4px 0 rgba(43, 33, 24, 0.18);
+    opacity: 0.72;
+    transform: rotate(-7deg);
+  }
+
   .decor-real-dog {
+    right: -6px;
+    top: 168px;
+    bottom: auto;
+    width: 64px;
+    padding: 4px 4px 12px;
+    border-width: 2px;
+    border-radius: 8px;
+    box-shadow: 4px 4px 0 rgba(43, 33, 24, 0.18);
+    opacity: 0.72;
+    transform: rotate(7deg);
+  }
+
+  .decor-photo::before,
+  .decor-photo::after {
+    display: none;
+  }
+
+  .decor-photo img {
+    border-width: 2px;
+    border-radius: 6px;
+  }
+
+  .cutout-labubu-big {
+    left: 4px;
+    top: 136px;
+    width: 56px;
+    opacity: 0.82;
+    transform: rotate(-8deg);
+  }
+
+  .cutout-labubu-prince {
+    right: 8px;
+    top: 18px;
+    width: 52px;
+    opacity: 0.82;
+    transform: rotate(8deg);
+  }
+
+  .cutout-star-pudding {
+    left: 8px;
+    top: 252px;
+    width: 48px;
+    opacity: 0.75;
+  }
+
+  .cutout-star-hidden {
+    right: 8px;
+    top: 300px;
+    width: 52px;
+    opacity: 0.75;
+  }
+
+  .cutout-zsiga-red,
+  .cutout-zsiga-blue,
+  .cutout-hirono-panda,
+  .cutout-hirono-tv {
     display: none;
   }
 
