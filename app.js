@@ -31,6 +31,7 @@ const giftPlan = [
       "./assets/cutouts/selected/zsiga-blue.png",
       "./assets/stickers/flower-tulip.svg",
     ],
+    luckyBeans: ["好运豆", "安心豆", "睡好觉豆", "少焦虑豆", "开心豆"],
     prompts: [
       {
         question: "我不开心的时候，通常会……",
@@ -459,49 +460,97 @@ function renderWorryBoxGame(level) {
 }
 
 function renderAnswerBottleGame(level) {
-  dom.gameArea.innerHTML = `
-    <div class="game-panel">
-      <div class="game-intro">
-        <p>选一张问题纸条，写不写都可以。重点不是答题，是更懂彼此一点。</p>
-      </div>
-      <div class="bottle-grid">
-        ${level.prompts
-          .map(
-            (prompt, index) => `
-              <button class="bottle-card" type="button" data-index="${index}">
-                <span>纸条 ${index + 1}</span>
-                <strong>${prompt.question}</strong>
-              </button>
-            `,
-          )
-          .join("")}
-      </div>
-      <div class="question-card bottle-answer" id="bottleAnswer" hidden></div>
-    </div>
-  `;
+  const luckyBeans = level.luckyBeans || [];
+  const picked = new Set();
+  const required = luckyBeans.length ? 3 : 0;
 
-  document.querySelectorAll(".bottle-card").forEach((button) => {
-    button.addEventListener("click", () => {
-      const prompt = level.prompts[Number(button.dataset.index)];
-      const panel = document.querySelector("#bottleAnswer");
-      panel.hidden = false;
-      panel.innerHTML = `
-        <h3>${prompt.question}</h3>
-        <textarea id="bottleText" maxlength="120" placeholder="可以写一句你的答案，也可以先留空。"></textarea>
-        <div class="answer-reveal">
-          <span>我的答案</span>
-          <p>${prompt.myAnswer}</p>
+  const drawBottle = () => {
+    dom.gameArea.innerHTML = `
+      <div class="game-panel">
+        <div class="game-intro">
+          <p>选一张问题纸条，写不写都可以。重点不是答题，是更懂彼此一点。</p>
         </div>
-        <button class="primary-button" type="button" id="saveBottle">保存纸条</button>
-      `;
-      document.querySelectorAll(".bottle-card").forEach((item) => item.classList.toggle("selected", item === button));
-      document.querySelector("#saveBottle").addEventListener("click", () => {
-        const value = document.querySelector("#bottleText").value.trim();
-        const summary = value ? `她留下的答案：${value}` : `她先收下了这个问题：${prompt.question}`;
-        finishLevel(level, summary);
+        <div class="bottle-grid">
+          ${level.prompts
+            .map(
+              (prompt, index) => `
+                <button class="bottle-card" type="button" data-index="${index}">
+                  <span>纸条 ${index + 1}</span>
+                  <strong>${prompt.question}</strong>
+                </button>
+              `,
+            )
+            .join("")}
+        </div>
+        <div class="question-card bottle-answer" id="bottleAnswer" hidden></div>
+      </div>
+    `;
+
+    document.querySelectorAll(".bottle-card").forEach((button) => {
+      button.addEventListener("click", () => {
+        const prompt = level.prompts[Number(button.dataset.index)];
+        const panel = document.querySelector("#bottleAnswer");
+        panel.hidden = false;
+        panel.innerHTML = `
+          <h3>${prompt.question}</h3>
+          <textarea id="bottleText" maxlength="120" placeholder="可以写一句你的答案，也可以先留空。"></textarea>
+          <div class="answer-reveal">
+            <span>我的答案</span>
+            <p>${prompt.myAnswer}</p>
+          </div>
+          <button class="primary-button" type="button" id="saveBottle">保存纸条</button>
+        `;
+        document.querySelectorAll(".bottle-card").forEach((item) => item.classList.toggle("selected", item === button));
+        document.querySelector("#saveBottle").addEventListener("click", () => {
+          const value = document.querySelector("#bottleText").value.trim();
+          const prefix = picked.size ? `她先收集了：${Array.from(picked).join(" / ")}。` : "";
+          const summary = value ? `${prefix}她留下的答案：${value}` : `${prefix}她先收下了这个问题：${prompt.question}`;
+          finishLevel(level, summary);
+        });
       });
     });
-  });
+  };
+
+  if (!required) {
+    drawBottle();
+    return;
+  }
+
+  const drawLuck = () => {
+    dom.gameArea.innerHTML = `
+      <div class="game-panel lucky-panel">
+        <div class="game-intro">
+          <p>先摇一摇好运小罐，点 ${required} 颗小金豆，再打开今天的问题纸条。</p>
+          <span class="mini-counter">${picked.size} / ${required}</span>
+        </div>
+        <div class="lucky-jar">
+          ${luckyBeans
+            .map(
+              (bean, index) => `
+                <button class="lucky-bean ${picked.has(bean) ? "picked" : ""}" type="button" data-bean="${bean}" style="--i:${index}">
+                  ${picked.has(bean) ? "已收下" : bean}
+                </button>
+              `,
+            )
+            .join("")}
+        </div>
+        <p class="soft-note">${picked.size >= required ? "好运已装好，可以打开问题纸条啦。" : "今天先收一点点好运，剩下的慢慢来。"}</p>
+        ${picked.size >= required ? `<button class="primary-button" type="button" id="openBottle">打开答案瓶</button>` : ""}
+      </div>
+    `;
+
+    document.querySelectorAll(".lucky-bean").forEach((button) => {
+      button.addEventListener("click", () => {
+        picked.add(button.dataset.bean);
+        drawLuck();
+      });
+    });
+
+    const openButton = document.querySelector("#openBottle");
+    if (openButton) openButton.addEventListener("click", drawBottle);
+  };
+
+  drawLuck();
 }
 
 function renderMoodGame(level) {

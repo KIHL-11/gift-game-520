@@ -1077,6 +1077,7 @@ button {
 .paper-grid,
 .stamp-grid,
 .worry-bubbles,
+.lucky-jar,
 .sync-grid {
   display: grid;
   gap: 12px;
@@ -1092,6 +1093,7 @@ button {
 .paper-card,
 .stamp-button,
 .worry-bubble,
+.lucky-bean,
 .tap-button {
   border: 3px solid var(--line);
   border-radius: 18px;
@@ -1113,6 +1115,7 @@ button {
 .paper-card:hover,
 .stamp-button:hover,
 .worry-bubble:hover,
+.lucky-bean:hover,
 .tap-button:hover,
 .choice-button.selected,
 .bottle-card.selected,
@@ -1120,6 +1123,7 @@ button {
 .paper-card.selected,
 .stamp-button.selected,
 .worry-bubble.stored,
+.lucky-bean.picked,
 .tap-button.selected {
   background: #d8c8ff;
 }
@@ -1346,6 +1350,52 @@ button {
 .worry-box.ready strong {
   background: #bfeeda;
   color: var(--ink);
+}
+
+.lucky-panel {
+  width: min(720px, 100%);
+}
+
+.lucky-jar {
+  position: relative;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  padding: 20px;
+  border: 3px solid var(--line);
+  border-radius: 30px 30px 18px 18px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.62), transparent 38%),
+    #fff7df;
+  box-shadow: inset 0 0 0 6px rgba(143, 197, 255, 0.28), 5px 5px 0 var(--line);
+}
+
+.lucky-jar::before {
+  content: "LUCKY JAR";
+  position: absolute;
+  left: 50%;
+  top: -16px;
+  translate: -50% 0;
+  padding: 4px 10px;
+  border: 2px solid var(--line);
+  border-radius: 999px;
+  background: #ffd9ea;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.lucky-bean {
+  min-height: 74px;
+  padding: 8px;
+  border-radius: 999px;
+  background: #ffe199;
+  font-size: 14px;
+  font-weight: 900;
+  transform: rotate(calc((var(--i) - 2) * 5deg));
+}
+
+.lucky-bean.picked {
+  background: #bfeeda;
+  transform: scale(0.94);
 }
 
 .heart-sync-panel {
@@ -1840,6 +1890,7 @@ button {
   .paper-grid,
   .stamp-grid,
   .worry-bubbles,
+  .lucky-jar,
   .sync-grid {
     grid-template-columns: 1fr;
   }
@@ -1850,6 +1901,7 @@ button {
   .paper-card,
   .stamp-button,
   .worry-bubble,
+  .lucky-bean,
   .tap-button,
   .sync-card,
   .sync-card textarea {
@@ -1911,6 +1963,23 @@ button {
   .worry-box strong {
     border-width: 2px;
     font-size: 24px;
+  }
+
+  .lucky-jar {
+    gap: 8px;
+    padding: 18px 12px 12px;
+    border-width: 2px;
+    border-radius: 22px 22px 14px 14px;
+    box-shadow: inset 0 0 0 4px rgba(143, 197, 255, 0.28), 3px 3px 0 var(--line);
+  }
+
+  .lucky-bean {
+    min-height: 52px;
+    transform: none;
+  }
+
+  .lucky-bean.picked {
+    transform: none;
   }
 
   .sync-card {
