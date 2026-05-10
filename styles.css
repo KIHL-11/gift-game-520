@@ -1076,6 +1076,7 @@ button {
 .mood-grid,
 .paper-grid,
 .stamp-grid,
+.worry-bubbles,
 .sync-grid {
   display: grid;
   gap: 12px;
@@ -1090,6 +1091,7 @@ button {
 .mood-button,
 .paper-card,
 .stamp-button,
+.worry-bubble,
 .tap-button {
   border: 3px solid var(--line);
   border-radius: 18px;
@@ -1110,12 +1112,14 @@ button {
 .mood-button:hover,
 .paper-card:hover,
 .stamp-button:hover,
+.worry-bubble:hover,
 .tap-button:hover,
 .choice-button.selected,
 .bottle-card.selected,
 .mood-button.selected,
 .paper-card.selected,
 .stamp-button.selected,
+.worry-bubble.stored,
 .tap-button.selected {
   background: #d8c8ff;
 }
@@ -1279,6 +1283,69 @@ button {
   font-size: 14px;
   font-weight: 900;
   background: #fffdf8;
+}
+
+.worry-panel {
+  width: min(720px, 100%);
+}
+
+.worry-playground {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 210px;
+  align-items: center;
+  gap: 18px;
+}
+
+.worry-bubbles {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.worry-bubble {
+  min-height: 82px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: 900;
+  transform: rotate(calc((var(--i) - 2) * 3deg));
+}
+
+.worry-bubble.stored {
+  opacity: 0.62;
+  transform: scale(0.92);
+}
+
+.worry-box {
+  min-height: 180px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 18px;
+  border: 3px solid var(--line);
+  border-radius: 18px 18px 26px 26px;
+  background:
+    linear-gradient(180deg, #fff7df 0 32%, #f0c978 32% 100%);
+  box-shadow: 5px 5px 0 var(--line);
+}
+
+.worry-box span {
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--muted);
+}
+
+.worry-box strong {
+  width: 100%;
+  padding: 10px;
+  border: 3px solid var(--line);
+  border-radius: 12px;
+  background: #fffdf8;
+  color: var(--red);
+  font-size: 30px;
+}
+
+.worry-box.ready strong {
+  background: #bfeeda;
+  color: var(--ink);
 }
 
 .heart-sync-panel {
@@ -1772,6 +1839,7 @@ button {
   .mood-grid,
   .paper-grid,
   .stamp-grid,
+  .worry-bubbles,
   .sync-grid {
     grid-template-columns: 1fr;
   }
@@ -1781,6 +1849,7 @@ button {
   .mood-button,
   .paper-card,
   .stamp-button,
+  .worry-bubble,
   .tap-button,
   .sync-card,
   .sync-card textarea {
@@ -1816,6 +1885,32 @@ button {
 
   .stamp-button {
     min-height: 54px;
+  }
+
+  .worry-playground {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .worry-bubble {
+    min-height: 56px;
+    transform: none;
+  }
+
+  .worry-bubble.stored {
+    transform: none;
+  }
+
+  .worry-box {
+    min-height: 120px;
+    border-width: 2px;
+    border-radius: 14px 14px 20px 20px;
+    box-shadow: 3px 3px 0 var(--line);
+  }
+
+  .worry-box strong {
+    border-width: 2px;
+    font-size: 24px;
   }
 
   .sync-card {

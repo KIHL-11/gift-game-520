@@ -3,10 +3,10 @@ const giftPlan = [
     date: "2026-05-11",
     title: "第一格：两只小朋友报到",
     gift: "两个玩偶的盲盒",
-    message: "两只小朋友先替我来见你。盲盒拆开前有期待，认识一个人好像也是。",
+    message: "今天先把烦恼存起来，小礼物来接班。两只小朋友先替我来见你。",
     romance: "不用急着给我们的关系起名字，能慢慢靠近，本身就已经很珍贵了。",
-    comfort: "如果今天有点焦虑，就先把呼吸放慢一点。你不用表现得一直很好，我也不会因为你偶尔低电量就离开。",
-    game: "eitherOr",
+    comfort: "如果今天有点焦虑，就先把它暂时放进盒子里。你不用一直很好，偶尔低电量也没关系。",
+    game: "worryBox",
     photos: ["./assets/photos/first-gift-countryside-growth.jpg", "./assets/photos/first-gift-carebear-bg.jpg"],
     stickers: [
       "./assets/cutouts/selected/labubu-cocoa.png",
@@ -14,23 +14,7 @@ const giftPlan = [
       "./assets/stickers/flower-daisy.svg",
       "./assets/stickers/anime-puppy.svg",
     ],
-    questions: [
-      {
-        text: "如果今天有一小段空闲，你更想怎么过？",
-        options: ["安静待一会儿", "出去走一走"],
-        myAnswer: "我大概率会想出去走走，但如果你累了，我也很愿意安静陪着。",
-      },
-      {
-        text: "收到小惊喜时，你更喜欢哪一种？",
-        options: ["直接告诉我", "留一点悬念"],
-        myAnswer: "我喜欢留一点悬念，因为期待本身也挺可爱的。",
-      },
-      {
-        text: "两只玩偶里，你会先拆哪一只？",
-        options: ["看起来乖的", "看起来有个性的"],
-        myAnswer: "我会先拆那只看起来有个性的，像是在认识一个小脾气。",
-      },
-    ],
+    worries: ["有点焦虑", "想太多", "小疲惫", "不安感", "坏心情"],
   },
   {
     date: "2026-05-12",
@@ -287,6 +271,7 @@ function renderStage() {
   }
 
   if (level.game === "eitherOr") renderEitherOrGame(level);
+  if (level.game === "worryBox") renderWorryBoxGame(level);
   if (level.game === "answerBottle") renderAnswerBottleGame(level);
   if (level.game === "mood") renderMoodGame(level);
   if (level.game === "paperNote") renderPaperNoteGame(level);
@@ -415,6 +400,59 @@ function renderEitherOrGame(level) {
         }, 1100);
       });
     });
+  };
+
+  draw();
+}
+
+function renderWorryBoxGame(level) {
+  const required = Math.min(3, level.worries.length);
+  const collected = new Set();
+
+  const draw = () => {
+    dom.gameArea.innerHTML = `
+      <div class="game-panel worry-panel">
+        <div class="game-intro">
+          <p>点几个小烦恼泡泡，把它们丢进盒子里。收好以后，第一份小礼物来接班。</p>
+          <span class="mini-counter">${collected.size} / ${required}</span>
+        </div>
+        <div class="worry-playground">
+          <div class="worry-bubbles">
+            ${level.worries
+              .map(
+                (worry, index) => `
+                  <button class="worry-bubble ${collected.has(worry) ? "stored" : ""}" type="button" data-worry="${worry}" style="--i:${index}">
+                    ${collected.has(worry) ? "已存好" : worry}
+                  </button>
+                `,
+              )
+              .join("")}
+          </div>
+          <div class="worry-box ${collected.size >= required ? "ready" : ""}" aria-hidden="true">
+            <span>烦恼暂存盒</span>
+            <strong>${collected.size >= required ? "READY" : "SAVE"}</strong>
+          </div>
+        </div>
+        <p class="soft-note" id="worryNote">
+          ${collected.size >= required ? "今天先把烦恼存起来，小礼物来接班。" : "不用解决所有事，先放下几个也很好。"}
+        </p>
+        ${collected.size >= required ? `<button class="primary-button" type="button" id="openWorryGift">让小礼物来接班</button>` : ""}
+      </div>
+    `;
+
+    document.querySelectorAll(".worry-bubble").forEach((button) => {
+      button.addEventListener("click", () => {
+        collected.add(button.dataset.worry);
+        draw();
+      });
+    });
+
+    const finishButton = document.querySelector("#openWorryGift");
+    if (finishButton) {
+      finishButton.addEventListener("click", () => {
+        finishLevel(level, `她暂时存好了：${Array.from(collected).join(" / ")}`);
+      });
+    }
   };
 
   draw();
