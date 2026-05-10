@@ -193,6 +193,7 @@ function isDateLocked(dateKey) {
 }
 
 function isStepLocked(index) {
+  if (PREVIEW_ALL) return false;
   return index > 0 && !progress[giftPlan[index - 1].date];
 }
 
