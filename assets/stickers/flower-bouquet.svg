@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-label="一束花">
+  <path d="M70 98 46 156M90 102 88 160M110 98l26 58" stroke="#4f9b76" stroke-width="8" stroke-linecap="round"/>
+  <path d="M58 134c20 16 46 16 66 0l-18 36H76l-18-36Z" fill="#ffd9ea" stroke="#2b2118" stroke-width="7" stroke-linejoin="round"/>
+  <circle cx="58" cy="70" r="22" fill="#ff8fb1" stroke="#2b2118" stroke-width="7"/>
+  <circle cx="90" cy="58" r="24" fill="#ffd96b" stroke="#2b2118" stroke-width="7"/>
+  <circle cx="122" cy="72" r="22" fill="#cbb7ff" stroke="#2b2118" stroke-width="7"/>
+  <circle cx="90" cy="82" r="20" fill="#fff7df" stroke="#2b2118" stroke-width="7"/>
+  <circle cx="90" cy="82" r="7" fill="#2b2118"/>
+  <path d="M38 106c14-10 28-10 42 0M100 108c16-12 32-12 48 0" fill="none" stroke="#72c3a4" stroke-width="7" stroke-linecap="round"/>
+</svg>

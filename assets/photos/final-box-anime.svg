@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 300" role="img" aria-label="二次元520礼盒">
+  <rect width="420" height="300" fill="#fffaf0"/>
+  <rect x="20" y="20" width="380" height="260" rx="24" fill="#e8dcff" stroke="#2b2118" stroke-width="8"/>
+  <path d="M58 236c70-42 232-42 304 0" fill="#bfeeda" stroke="#2b2118" stroke-width="7" stroke-linecap="round"/>
+  <rect x="122" y="118" width="176" height="96" rx="16" fill="#ff7da7" stroke="#2b2118" stroke-width="9"/>
+  <rect x="102" y="84" width="216" height="54" rx="14" fill="#ffc36d" stroke="#2b2118" stroke-width="9"/>
+  <rect x="196" y="84" width="30" height="130" fill="#fff7df" stroke="#2b2118" stroke-width="6"/>
+  <path d="M198 82c-46-34-16-68 12-24M224 82c46-34 16-68-12-24" fill="#fff7df" stroke="#2b2118" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="170" cy="158" r="8" fill="#2b2118"/>
+  <circle cx="250" cy="158" r="8" fill="#2b2118"/>
+  <path d="M188 180c16 13 28 13 44 0" fill="none" stroke="#2b2118" stroke-width="7" stroke-linecap="round"/>
+  <path d="M78 82 90 112l32 12-32 12-12 32-12-32-32-12 32-12 12-30Z" fill="#ffd96b" stroke="#2b2118" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M334 70c18-20 52-2 34 25-8 12-24 22-34 32-10-10-26-20-34-32-18-27 16-45 34-25Z" fill="#ff7da7" stroke="#2b2118" stroke-width="6" stroke-linejoin="round"/>
+  <text x="210" y="256" text-anchor="middle" font-family="monospace" font-size="26" font-weight="900" fill="#2b2118">520 COLLECTION BOX</text>
+</svg>

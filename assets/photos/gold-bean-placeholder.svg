@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 300" role="img" aria-label="小金豆照片占位">
+  <rect width="420" height="300" fill="#fff2c7"/>
+  <rect x="22" y="22" width="376" height="256" rx="10" fill="#f6dfaa" stroke="#2b2118" stroke-width="8"/>
+  <ellipse cx="210" cy="142" rx="92" ry="58" fill="#f0c978" stroke="#2b2118" stroke-width="8"/>
+  <path d="M162 128c20-26 70-34 104-8" fill="none" stroke="#fff2c7" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="184" cy="150" r="8" fill="#2b2118"/><circle cx="236" cy="150" r="8" fill="#2b2118"/>
+  <path d="M194 174c12 10 24 10 36 0" fill="none" stroke="#2b2118" stroke-width="6" stroke-linecap="round"/>
+  <text x="210" y="250" text-anchor="middle" font-family="monospace" font-size="22" font-weight="900" fill="#2b2118">LUCKY GOLD BEAN</text>
+</svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140" role="img" aria-label="可爱小怪兽潮玩">
+  <path d="M38 42 18 14l6 50M102 42l20-28-6 50" fill="#c7b2ff" stroke="#2b2118" stroke-width="8" stroke-linejoin="round"/>
+  <rect x="30" y="36" width="80" height="82" rx="28" fill="#d8c8ff" stroke="#2b2118" stroke-width="8"/>
+  <circle cx="55" cy="72" r="8" fill="#2b2118"/>
+  <circle cx="85" cy="72" r="8" fill="#2b2118"/>
+  <path d="M54 94c10 9 22 9 32 0" fill="none" stroke="#2b2118" stroke-width="6" stroke-linecap="round"/>
+  <path d="M44 52h52" stroke="#fff6d9" stroke-width="7" stroke-linecap="round"/>
+</svg>

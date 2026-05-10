@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 300" role="img" aria-label="拉布布玩偶照片占位">
+  <rect width="420" height="300" fill="#fff2c7"/>
+  <rect x="22" y="22" width="376" height="256" rx="10" fill="#f6dfaa" stroke="#2b2118" stroke-width="8"/>
+  <path d="M148 72 110 38l8 72M272 72l38-34-8 72" fill="#c94d32" stroke="#2b2118" stroke-width="7" stroke-linejoin="round"/>
+  <rect x="122" y="72" width="176" height="154" rx="42" fill="#e28a38" stroke="#2b2118" stroke-width="7"/>
+  <circle cx="174" cy="144" r="10" fill="#2b2118"/><circle cx="246" cy="144" r="10" fill="#2b2118"/>
+  <path d="M176 182c22 20 46 20 68 0" fill="none" stroke="#2b2118" stroke-width="7" stroke-linecap="round"/>
+  <text x="210" y="258" text-anchor="middle" font-family="monospace" font-size="22" font-weight="900" fill="#2b2118">LABUBU PHOTO</text>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140" role="img" aria-label="月亮">
+  <defs>
+    <linearGradient id="moon" x1="32" x2="114" y1="18" y2="122" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffe6a6"/>
+      <stop offset="1" stop-color="#f3bd4d"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#moon)" d="M109 104c-35 20-79-5-83-45C23 27 51 5 82 16c-22 8-36 31-30 55 6 25 30 41 57 33Z"/>
+  <circle cx="91" cy="44" r="5" fill="#fff2c9"/>
+  <circle cx="103" cy="67" r="3" fill="#fff2c9"/>
+</svg>

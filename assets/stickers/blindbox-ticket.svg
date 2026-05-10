@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 110" role="img" aria-label="复古盲盒票根">
+  <path d="M18 20h184v22c-12 0-12 26 0 26v22H18V68c12 0 12-26 0-26V20Z" fill="#fff7df" stroke="#2b2118" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M62 24v62" stroke="#2b2118" stroke-width="4" stroke-dasharray="7 7"/>
+  <text x="132" y="53" text-anchor="middle" font-family="monospace" font-size="22" font-weight="900" fill="#ef6f91">BLIND BOX</text>
+  <text x="132" y="78" text-anchor="middle" font-family="monospace" font-size="14" font-weight="900" fill="#2b2118">COLLECTION TICKET</text>
+  <circle cx="40" cy="55" r="13" fill="#cbb7ff" stroke="#2b2118" stroke-width="5"/>
+</svg>

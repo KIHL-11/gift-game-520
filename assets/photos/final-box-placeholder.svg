@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 300" role="img" aria-label="520礼盒照片占位">
+  <rect width="420" height="300" fill="#fff2c7"/>
+  <rect x="22" y="22" width="376" height="256" rx="10" fill="#f6dfaa" stroke="#2b2118" stroke-width="8"/>
+  <rect x="118" y="112" width="184" height="98" rx="8" fill="#c94d32" stroke="#2b2118" stroke-width="7"/>
+  <rect x="102" y="84" width="216" height="46" rx="6" fill="#e28a38" stroke="#2b2118" stroke-width="7"/>
+  <rect x="196" y="84" width="28" height="126" fill="#f0c978" stroke="#2b2118" stroke-width="5"/>
+  <text x="210" y="254" text-anchor="middle" font-family="monospace" font-size="24" font-weight="900" fill="#2b2118">520 GIFT BOX</text>
+</svg>

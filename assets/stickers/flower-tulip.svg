@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 160" role="img" aria-label="小郁金香">
+  <path d="M70 88v58" stroke="#4f9b76" stroke-width="8" stroke-linecap="round"/>
+  <path d="M70 122c-20-18-38-12-50 6 24 8 42 4 50-6ZM70 116c20-18 38-12 50 6-24 8-42 4-50-6Z" fill="#72c3a4" stroke="#2b2118" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M32 64c0-28 20-46 38-46s38 18 38 46c0 28-20 44-38 44S32 92 32 64Z" fill="#ff8fb1" stroke="#2b2118" stroke-width="7"/>
+  <path d="M70 20c-10 20-10 44 0 70M42 42c8 10 18 15 28 15M98 42c-8 10-18 15-28 15" fill="none" stroke="#fff7df" stroke-width="6" stroke-linecap="round"/>
+</svg>

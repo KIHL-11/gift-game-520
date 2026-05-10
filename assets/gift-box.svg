@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-label="礼物盒">
+  <defs>
+    <linearGradient id="box" x1="30" x2="190" y1="62" y2="190" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ff8d6b"/>
+      <stop offset="1" stop-color="#ee6a86"/>
+    </linearGradient>
+    <linearGradient id="ribbon" x1="72" x2="150" y1="36" y2="196" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffe28a"/>
+      <stop offset="1" stop-color="#f3bd4d"/>
+    </linearGradient>
+  </defs>
+  <path fill="#fff5f0" d="M28 105c0-48 35-81 84-81 46 0 80 35 80 84 0 50-34 84-84 84-48 0-80-35-80-87Z"/>
+  <path fill="url(#box)" d="M45 92h130v80a14 14 0 0 1-14 14H59a14 14 0 0 1-14-14V92Z"/>
+  <path fill="#ff6d87" d="M36 72h148a12 12 0 0 1 12 12v18H24V84a12 12 0 0 1 12-12Z"/>
+  <path fill="url(#ribbon)" d="M96 72h28v114H96z"/>
+  <path fill="#ffd86b" d="M24 92h172v18H24z"/>
+  <path fill="none" stroke="#ee6a86" stroke-linecap="round" stroke-width="12" d="M102 68C69 42 73 21 94 21c17 0 24 20 16 51"/>
+  <path fill="none" stroke="#ee6a86" stroke-linecap="round" stroke-width="12" d="M118 68c33-26 29-47 8-47-17 0-24 20-16 51"/>
+  <circle cx="68" cy="132" r="8" fill="#fff7f0" opacity=".75"/>
+  <circle cx="154" cy="151" r="6" fill="#fff7f0" opacity=".75"/>
+</svg>
