@@ -1073,7 +1073,8 @@ button {
 
 .choice-grid,
 .bottle-grid,
-.mood-grid {
+.mood-grid,
+.sync-grid {
   display: grid;
   gap: 12px;
 }
@@ -1084,7 +1085,8 @@ button {
 
 .choice-button,
 .bottle-card,
-.mood-button {
+.mood-button,
+.tap-button {
   border: 3px solid var(--line);
   border-radius: 18px;
   color: var(--ink);
@@ -1102,9 +1104,11 @@ button {
 .choice-button:hover,
 .bottle-card:hover,
 .mood-button:hover,
+.tap-button:hover,
 .choice-button.selected,
 .bottle-card.selected,
-.mood-button.selected {
+.mood-button.selected,
+.tap-button.selected {
   background: #d8c8ff;
 }
 
@@ -1187,6 +1191,82 @@ button {
   border: 2px dashed rgba(43, 33, 24, 0.5);
   border-radius: 3px;
   font-weight: 900;
+}
+
+.heart-sync-panel {
+  width: min(720px, 100%);
+}
+
+.sync-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.sync-card {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border: 3px solid var(--line);
+  border-radius: 18px;
+  background: #fff7df;
+  box-shadow: 4px 4px 0 var(--line);
+}
+
+.sync-card h3 {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.35;
+}
+
+.sync-role {
+  justify-self: start;
+  padding: 4px 8px;
+  border: 2px solid var(--line);
+  border-radius: 999px;
+  background: #ffd9ea;
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.sync-card textarea {
+  width: 100%;
+  min-height: 112px;
+  resize: vertical;
+  border: 3px solid var(--line);
+  border-radius: 12px;
+  padding: 12px;
+  color: var(--ink);
+  background: #fffdf8;
+  outline: none;
+  line-height: 1.65;
+}
+
+.sync-card textarea:focus {
+  background: #fff9e6;
+  box-shadow: inset 0 0 0 3px #f0c978;
+}
+
+.tap-button {
+  min-height: 48px;
+  padding: 0 14px;
+  font-weight: 900;
+}
+
+.sync-note {
+  text-align: left;
+}
+
+.sync-reveal {
+  display: grid;
+  gap: 12px;
+}
+
+.sync-reveal[hidden] {
+  display: none;
+}
+
+.answer-poem {
+  background: #ffd9ea;
 }
 
 .soft-note {
@@ -1601,13 +1681,17 @@ button {
 
   .choice-grid,
   .bottle-grid,
-  .mood-grid {
+  .mood-grid,
+  .sync-grid {
     grid-template-columns: 1fr;
   }
 
   .choice-button,
   .bottle-card,
-  .mood-button {
+  .mood-button,
+  .tap-button,
+  .sync-card,
+  .sync-card textarea {
     border-width: 2px;
     border-radius: 14px;
     box-shadow: 3px 3px 0 var(--line);
@@ -1621,6 +1705,20 @@ button {
   .bottle-card,
   .mood-button {
     min-height: 86px;
+  }
+
+  .sync-card {
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .sync-card h3 {
+    font-size: 18px;
+  }
+
+  .sync-card textarea {
+    min-height: 92px;
+    box-shadow: none;
   }
 
   .media-shelf {

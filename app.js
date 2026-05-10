@@ -103,7 +103,7 @@ const giftPlan = [
     message: "这不是要你立刻回答什么，只是把这段时间准备的小心意，认真放进一个盒子里。",
     romance: "如果以后我们真的更靠近一点，我希望那不是因为某一句话逼出来的，而是因为相处本身让我们都觉得安心。",
     comfort: "不管你现在有没有答案，都没关系。你不用马上确定什么，也不用为了照顾谁的期待而紧张。",
-    game: "answerBottle",
+    game: "heartSync",
     photos: ["./assets/photos/final-box-anime.svg"],
     stickers: [
       "./assets/cutouts/selected/labubu-big.png",
@@ -113,20 +113,7 @@ const giftPlan = [
       "./assets/stickers/flower-bouquet.svg",
       "./assets/stickers/anime-puppy.svg",
     ],
-    prompts: [
-      {
-        question: "如果慢慢了解一个人，你最在意的是……",
-        myAnswer: "我最在意相处起来是否安心，能不能自然地做自己。",
-      },
-      {
-        question: "你理想里的靠近，是快一点还是慢一点？",
-        myAnswer: "我更喜欢慢一点。慢慢来，才知道彼此是不是真的舒服。",
-      },
-      {
-        question: "如果要给最近的我们起一个名字，你会叫它……",
-        myAnswer: "我会叫它：正在靠近的日常。",
-      },
-    ],
+    syncIntro: "一个人写问题，一个人写答案。写完后拍一拍对方，等两个人都拍过，再让问题和答案相遇。",
   },
 ];
 
@@ -284,6 +271,7 @@ function renderStage() {
   if (level.game === "eitherOr") renderEitherOrGame(level);
   if (level.game === "answerBottle") renderAnswerBottleGame(level);
   if (level.game === "mood") renderMoodGame(level);
+  if (level.game === "heartSync") renderHeartSyncGame(level);
 }
 
 function mediaMarkup(level, compact = false) {
@@ -491,6 +479,80 @@ function renderMoodGame(level) {
       document.querySelector("#moodNote").textContent = text;
       level.message = text;
       window.setTimeout(() => finishLevel(level, `今天的心情：${label}`), 900);
+    });
+  });
+}
+
+function renderHeartSyncGame(level) {
+  dom.gameArea.innerHTML = `
+    <div class="game-panel heart-sync-panel">
+      <div class="game-intro">
+        <p>${level.syncIntro}</p>
+        <span class="mini-counter">心有灵犀</span>
+      </div>
+      <div class="sync-grid">
+        <div class="sync-card" data-side="question">
+          <span class="sync-role">写问题的人</span>
+          <h3>先写一个问题</h3>
+          <textarea id="syncQuestion" maxlength="80" placeholder="比如：如果今天像一种天气，会是什么？"></textarea>
+          <button class="tap-button" type="button" data-tap="question">我写完了，拍一下</button>
+        </div>
+        <div class="sync-card" data-side="answer">
+          <span class="sync-role">写答案的人</span>
+          <h3>不看问题，先写答案</h3>
+          <textarea id="syncAnswer" maxlength="80" placeholder="比如：一杯温热的奶茶，和一点点风。"></textarea>
+          <button class="tap-button" type="button" data-tap="answer">我写完了，拍一下</button>
+        </div>
+      </div>
+      <div class="soft-note sync-note" id="syncNote">
+        两个人都拍过以后，写问题的人先发问题，写答案的人再发答案。违和也没关系，有时候会像短诗。
+      </div>
+      <div class="sync-reveal" id="syncReveal" hidden></div>
+    </div>
+  `;
+
+  const state = { question: false, answer: false };
+  const update = () => {
+    const question = document.querySelector("#syncQuestion").value.trim();
+    const answer = document.querySelector("#syncAnswer").value.trim();
+    const bothReady = state.question && state.answer;
+    const reveal = document.querySelector("#syncReveal");
+    const note = document.querySelector("#syncNote");
+
+    if (!bothReady) {
+      const readyText = [
+        state.question ? "问题已拍" : "问题还在路上",
+        state.answer ? "答案已拍" : "答案还在路上",
+      ].join(" / ");
+      note.textContent = readyText;
+      return;
+    }
+
+    reveal.hidden = false;
+    reveal.innerHTML = `
+      <div class="answer-reveal">
+        <span>先发出问题</span>
+        <p>${question || "她还没写问题，但这份空白也很像一个小小的悬念。"}</p>
+      </div>
+      <div class="answer-reveal answer-poem">
+        <span>再发出答案</span>
+        <p>${answer || "她还没写答案，那就把答案留给下一次靠近。"}</p>
+      </div>
+      <button class="primary-button" type="button" id="finishSync">收下这次默契</button>
+    `;
+    note.textContent = "问题和答案见面了。契合也好，错位也好，都很可爱。";
+    document.querySelector("#finishSync").addEventListener("click", () => {
+      finishLevel(level, `心有灵犀：${question || "未写问题"} / ${answer || "未写答案"}`);
+    });
+  };
+
+  document.querySelectorAll(".tap-button").forEach((button) => {
+    button.addEventListener("click", () => {
+      const side = button.dataset.tap;
+      state[side] = true;
+      button.classList.add("selected");
+      button.textContent = side === "question" ? "问题写完了" : "答案写完了";
+      update();
     });
   });
 }
