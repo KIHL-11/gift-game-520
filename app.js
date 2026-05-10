@@ -115,7 +115,8 @@ const giftPlan = [
       "./assets/stickers/flower-bouquet.svg",
       "./assets/stickers/anime-puppy.svg",
     ],
-    syncIntro: "一个人写问题，一个人写答案。写完后拍一拍对方，等两个人都拍过，再让问题和答案相遇。",
+    syncTheme: "主题：一个会让人觉得浪漫又安心的地方",
+    syncIntro: "这一关是半心有灵犀：先知道主题，但不要互相看具体内容。一个人写问题，一个人写答案，写完后拍一拍对方。",
   },
 ];
 
@@ -662,17 +663,22 @@ function renderHeartSyncGame(level) {
         <p>${level.syncIntro}</p>
         <span class="mini-counter">心有灵犀</span>
       </div>
+      <div class="sync-theme-card">
+        <span>本关主题</span>
+        <strong>${level.syncTheme}</strong>
+        <p>可以想一个地点、一个画面，或者一种让你觉得舒服的氛围。</p>
+      </div>
       <div class="sync-grid">
         <div class="sync-card" data-side="question">
           <span class="sync-role">写问题的人</span>
           <h3>先写一个问题</h3>
-          <textarea id="syncQuestion" maxlength="80" placeholder="比如：如果今天像一种天气，会是什么？"></textarea>
+          <textarea id="syncQuestion" maxlength="80" placeholder="比如：如果以后有一句很重要的话，你希望在哪里听到？"></textarea>
           <button class="tap-button" type="button" data-tap="question">我写完了，拍一下</button>
         </div>
         <div class="sync-card" data-side="answer">
           <span class="sync-role">写答案的人</span>
           <h3>不看问题，先写答案</h3>
-          <textarea id="syncAnswer" maxlength="80" placeholder="比如：一杯温热的奶茶，和一点点风。"></textarea>
+          <textarea id="syncAnswer" maxlength="80" placeholder="比如：有晚风、能慢慢说话、不用赶时间的地方。"></textarea>
           <button class="tap-button" type="button" data-tap="answer">我写完了，拍一下</button>
         </div>
       </div>
