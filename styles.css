@@ -1074,6 +1074,8 @@ button {
 .choice-grid,
 .bottle-grid,
 .mood-grid,
+.paper-grid,
+.stamp-grid,
 .sync-grid {
   display: grid;
   gap: 12px;
@@ -1086,6 +1088,8 @@ button {
 .choice-button,
 .bottle-card,
 .mood-button,
+.paper-card,
+.stamp-button,
 .tap-button {
   border: 3px solid var(--line);
   border-radius: 18px;
@@ -1104,10 +1108,14 @@ button {
 .choice-button:hover,
 .bottle-card:hover,
 .mood-button:hover,
+.paper-card:hover,
+.stamp-button:hover,
 .tap-button:hover,
 .choice-button.selected,
 .bottle-card.selected,
 .mood-button.selected,
+.paper-card.selected,
+.stamp-button.selected,
 .tap-button.selected {
   background: #d8c8ff;
 }
@@ -1191,6 +1199,86 @@ button {
   border: 2px dashed rgba(43, 33, 24, 0.5);
   border-radius: 3px;
   font-weight: 900;
+}
+
+.paper-note-panel {
+  width: min(720px, 100%);
+}
+
+.paper-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.paper-card {
+  position: relative;
+  min-height: 142px;
+  padding: 16px;
+  display: grid;
+  align-content: space-between;
+  text-align: left;
+  overflow: hidden;
+  transform: rotate(-2deg);
+}
+
+.paper-card:nth-child(2) {
+  transform: rotate(2deg);
+}
+
+.paper-card:nth-child(3) {
+  transform: rotate(-1deg);
+}
+
+.paper-card::after {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 2px dashed rgba(43, 33, 24, 0.28);
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+.paper-card span {
+  position: relative;
+  z-index: 1;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.paper-card strong {
+  position: relative;
+  z-index: 1;
+  font-size: 24px;
+  letter-spacing: 0;
+}
+
+.paper-1 {
+  background: #ffd9ea;
+}
+
+.paper-2 {
+  background: #fff0a8;
+}
+
+.paper-3 {
+  background: #d9ecff;
+}
+
+.paper-opened[hidden] {
+  display: none;
+}
+
+.stamp-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.stamp-button {
+  min-height: 72px;
+  padding: 8px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 900;
+  background: #fffdf8;
 }
 
 .heart-sync-panel {
@@ -1682,6 +1770,8 @@ button {
   .choice-grid,
   .bottle-grid,
   .mood-grid,
+  .paper-grid,
+  .stamp-grid,
   .sync-grid {
     grid-template-columns: 1fr;
   }
@@ -1689,6 +1779,8 @@ button {
   .choice-button,
   .bottle-card,
   .mood-button,
+  .paper-card,
+  .stamp-button,
   .tap-button,
   .sync-card,
   .sync-card textarea {
@@ -1705,6 +1797,25 @@ button {
   .bottle-card,
   .mood-button {
     min-height: 86px;
+  }
+
+  .paper-card {
+    min-height: 96px;
+    padding: 14px;
+    transform: none;
+  }
+
+  .paper-card:nth-child(2),
+  .paper-card:nth-child(3) {
+    transform: none;
+  }
+
+  .paper-card strong {
+    font-size: 20px;
+  }
+
+  .stamp-button {
+    min-height: 54px;
   }
 
   .sync-card {

@@ -64,12 +64,12 @@ const giftPlan = [
   },
   {
     date: "2026-05-16",
-    title: "第三格：陪伴员",
+    title: "第三格：今日小纸条",
     gift: "拉布布的大夏玩偶",
-    message: "这一份大一点，像一个不会催你的陪伴员。它负责可爱，我负责慢慢了解你。",
-    romance: "我喜欢那种不用用力证明的靠近，像晚风一样，轻轻在身边就好。",
-    comfort: "你可以有很多小情绪，也可以有很多不确定。慢慢来，我不催你，也不把你的沉默理解成拒绝。",
-    game: "mood",
+    message: "今天的小纸条被你抽到了。礼物还是负责可爱，纸条负责让我们更懂一点彼此。",
+    romance: "我很喜欢这种慢慢交换边界和喜好的感觉，不急着靠近很多，但每次都更真一点。",
+    comfort: "你可以按自己的节奏回答，也可以只收下这张纸条。被了解不应该有压力，舒服才最重要。",
+    game: "paperNote",
     photos: ["./assets/photos/second-gift-labubu-summer.jpg"],
     stickers: [
       "./assets/cutouts/selected/star-pudding.png",
@@ -77,22 +77,39 @@ const giftPlan = [
       "./assets/stickers/flower-bouquet.svg",
       "./assets/stickers/anime-cat.svg",
     ],
-    moods: [
+    notes: [
       {
-        label: "晴天",
-        text: "那今天就把快乐再放大一点。这个小礼物，算是给好心情加一颗糖。",
+        label: "粉色纸条",
+        text: "今天的问题：你最喜欢别人用什么方式关心你？",
+        hint: "可以是记得小事、轻轻问候、陪你待着，也可以是给你一点空间。",
       },
       {
-        label: "阴天",
-        text: "那今天不用勉强开心。小礼物先放在这里，等你想打开的时候再打开。",
+        label: "黄色纸条",
+        text: "今天的问题：你有点累的时候，希望别人靠近一点，还是安静一点？",
+        hint: "这不是考试，只是让我以后更懂怎么不打扰地关心你。",
       },
       {
-        label: "有点累",
-        text: "那今天就不打扰你太久，只把这个小礼物轻轻放这儿。",
+        label: "蓝色纸条",
+        text: "今天的问题：什么样的小事会让你突然觉得被认真放在心上？",
+        hint: "有些喜欢很轻，但记住它的人会显得很珍贵。",
+      },
+    ],
+    stamps: [
+      {
+        label: "记得小事",
+        text: "原来你会被细节接住。那我以后要更认真一点点。",
       },
       {
-        label: "还不错",
-        text: "那就很好。普通但舒服的一天，也值得有一个小小的奖励。",
+        label: "轻轻问候",
+        text: "那我会学着不吵闹地出现，像一盏不会晃眼的小灯。",
+      },
+      {
+        label: "陪你待着",
+        text: "有时候不需要很多话，只要有人在旁边就好了。",
+      },
+      {
+        label: "给点空间",
+        text: "收到。喜欢你，也要尊重你的节奏和安静。",
       },
     ],
   },
@@ -100,9 +117,9 @@ const giftPlan = [
     date: "2026-05-20",
     title: "最终格：520收藏盒",
     gift: "最后的 520 礼盒",
-    message: "这不是要你立刻回答什么，只是把这段时间准备的小心意，认真放进一个盒子里。",
-    romance: "如果以后我们真的更靠近一点，我希望那不是因为某一句话逼出来的，而是因为相处本身让我们都觉得安心。",
-    comfort: "不管你现在有没有答案，都没关系。你不用马上确定什么，也不用为了照顾谁的期待而紧张。",
+    message: "谢谢蓉蓉参与这本小小收藏档案。你每点开一格，都像认真收下了我藏起来的一点心意。",
+    romance: "这次先到这里，尽情期待下次惊喜。偷偷问一句：如果以后有一个很认真的表白，你会希望它发生在什么地方？",
+    comfort: "不用现在回答，也不用把它当成压力。只是我想慢慢知道，你心里觉得浪漫又安心的地方长什么样。",
     game: "heartSync",
     photos: ["./assets/photos/final-box-anime.svg"],
     stickers: [
@@ -271,6 +288,7 @@ function renderStage() {
   if (level.game === "eitherOr") renderEitherOrGame(level);
   if (level.game === "answerBottle") renderAnswerBottleGame(level);
   if (level.game === "mood") renderMoodGame(level);
+  if (level.game === "paperNote") renderPaperNoteGame(level);
   if (level.game === "heartSync") renderHeartSyncGame(level);
 }
 
@@ -479,6 +497,72 @@ function renderMoodGame(level) {
       document.querySelector("#moodNote").textContent = text;
       level.message = text;
       window.setTimeout(() => finishLevel(level, `今天的心情：${label}`), 900);
+    });
+  });
+}
+
+function renderPaperNoteGame(level) {
+  dom.gameArea.innerHTML = `
+    <div class="game-panel paper-note-panel">
+      <div class="game-intro">
+        <p>点开一张小纸条，再盖一个小印章。它不是要你立刻说很多，只是让我更懂你一点。</p>
+        <span class="mini-counter">今日小纸条</span>
+      </div>
+      <div class="paper-grid">
+        ${level.notes
+          .map(
+            (note, index) => `
+              <button class="paper-card paper-${index + 1}" type="button" data-index="${index}">
+                <span>${note.label}</span>
+                <strong>CLICK</strong>
+              </button>
+            `,
+          )
+          .join("")}
+      </div>
+      <div class="question-card paper-opened" id="paperOpened" hidden></div>
+    </div>
+  `;
+
+  document.querySelectorAll(".paper-card").forEach((button) => {
+    button.addEventListener("click", () => {
+      const note = level.notes[Number(button.dataset.index)];
+      const panel = document.querySelector("#paperOpened");
+      panel.hidden = false;
+      document.querySelectorAll(".paper-card").forEach((item) => {
+        item.disabled = true;
+        item.classList.toggle("selected", item === button);
+      });
+      panel.innerHTML = `
+        <span class="sync-role">轻轻的话</span>
+        <h3>${note.text}</h3>
+        <p class="saved-note">${note.hint}</p>
+        <div class="stamp-grid">
+          ${level.stamps
+            .map(
+              (stamp) => `
+                <button class="stamp-button" type="button" data-label="${stamp.label}" data-text="${stamp.text}">
+                  ${stamp.label}
+                </button>
+              `,
+            )
+            .join("")}
+        </div>
+        <p class="soft-note" id="stampReply">选一个最接近你的答案的小印章。</p>
+      `;
+
+      document.querySelectorAll(".stamp-button").forEach((stampButton) => {
+        stampButton.addEventListener("click", () => {
+          document.querySelectorAll(".stamp-button").forEach((item) => {
+            item.disabled = true;
+            item.classList.toggle("selected", item === stampButton);
+          });
+          document.querySelector("#stampReply").textContent = stampButton.dataset.text;
+          window.setTimeout(() => {
+            finishLevel(level, `今日小纸条：${note.text} / 她盖下了「${stampButton.dataset.label}」`);
+          }, 900);
+        });
+      });
     });
   });
 }
