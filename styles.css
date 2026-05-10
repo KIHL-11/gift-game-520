@@ -18,9 +18,17 @@
   box-sizing: border-box;
 }
 
+html {
+  width: 100%;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
   margin: 0;
+  width: 100%;
   min-height: 100vh;
+  overflow-x: hidden;
   background:
     radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.95) 0 3px, transparent 4px) 0 0 / 26px 26px,
     radial-gradient(circle at 14% 12%, rgba(203, 183, 255, 0.42), transparent 24%),
@@ -512,7 +520,7 @@ button {
 .app-shell {
   position: relative;
   z-index: 1;
-  width: min(1120px, calc(100% - 28px));
+  width: min(1180px, calc(100% - 28px));
   margin: 0 auto;
   padding: 24px 0 40px;
 }
@@ -913,6 +921,7 @@ button {
   margin: 5px 0 0;
   font-size: 27px;
   letter-spacing: 0;
+  line-height: 1.25;
 }
 
 .game-area {
@@ -1278,7 +1287,12 @@ button {
   }
 }
 
-@media (max-width: 880px) {
+@media (max-width: 1120px) {
+  .app-shell {
+    width: min(100% - 22px, 980px);
+    padding: 18px 0 34px;
+  }
+
   .hero,
   .layout,
   .progress-strip {
@@ -1286,9 +1300,17 @@ button {
   }
 
   .hero {
-    min-height: 420px;
+    min-height: 300px;
     align-items: start;
     padding: 24px;
+  }
+
+  .hero h1 {
+    font-size: clamp(42px, 8vw, 68px);
+  }
+
+  .subtitle {
+    max-width: 620px;
   }
 
   .countdown-panel {
@@ -1308,8 +1330,40 @@ button {
     align-items: stretch;
   }
 
+  .timeline {
+    padding-bottom: 14px;
+  }
+
+  .level-list {
+    grid-template-columns: repeat(4, minmax(190px, 1fr));
+    overflow-x: auto;
+    padding: 2px 4px 8px;
+    scroll-snap-type: x proximity;
+  }
+
+  .level-card {
+    min-width: 190px;
+    grid-template-columns: 46px minmax(0, 1fr);
+    align-content: start;
+    scroll-snap-align: start;
+  }
+
+  .level-icon {
+    width: 46px;
+    height: 46px;
+  }
+
+  .level-badge {
+    justify-self: start;
+    grid-column: 2;
+  }
+
   .game-stage {
     min-height: auto;
+  }
+
+  .game-area {
+    min-height: 360px;
   }
 
   .collect-card {
@@ -1317,18 +1371,138 @@ button {
   }
 }
 
-@media (max-width: 560px) {
+@media (max-width: 640px) {
   .app-shell {
-    width: min(100% - 18px, 1120px);
-    padding-top: 10px;
+    width: min(100% - 14px, 1120px);
+    padding: 8px 0 22px;
+  }
+
+  .hero,
+  .progress-strip,
+  .timeline,
+  .game-stage,
+  .gift-dialog-inner {
+    border-width: 2px;
+    border-radius: 14px;
+    box-shadow: 5px 5px 0 rgba(43, 33, 24, 0.92), 0 0 0 3px rgba(255, 255, 255, 0.42);
+  }
+
+  .hero {
+    min-height: 0;
+    padding: 18px 14px 16px;
+    gap: 14px;
   }
 
   .hero h1 {
-    font-size: 36px;
+    margin-top: 0;
+    padding: 5px 8px;
+    border-width: 2px;
+    border-radius: 12px;
+    box-shadow: 3px 3px 0 var(--line);
+    font-size: clamp(34px, 12vw, 48px);
   }
 
   .subtitle {
     font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .countdown-panel {
+    width: 112px;
+    min-height: 112px;
+    box-shadow: inset 0 0 0 5px var(--screen-dark), 3px 3px 0 var(--line);
+  }
+
+  .countdown-panel strong {
+    font-size: 40px;
+  }
+
+  .gift-planet {
+    right: 4px;
+    bottom: 6px;
+    width: 118px;
+    opacity: 0.82;
+  }
+
+  .spark-one {
+    right: 18px;
+    top: 16px;
+  }
+
+  .spark-two,
+  .moon {
+    display: none;
+  }
+
+  .progress-strip {
+    gap: 10px;
+    margin: 10px 0;
+    padding: 14px 12px 12px;
+  }
+
+  .progress-strip::before {
+    right: 12px;
+    top: -13px;
+    font-size: 10px;
+  }
+
+  .ghost-button,
+  .primary-button {
+    min-height: 40px;
+    padding: 0 13px;
+    border-width: 2px;
+    box-shadow: 3px 3px 0 var(--line);
+  }
+
+  .timeline,
+  .game-stage {
+    padding: 14px 12px;
+  }
+
+  .timeline::before,
+  .game-stage::before {
+    width: 48px;
+    height: 18px;
+    top: -10px;
+  }
+
+  .section-title,
+  .stage-header {
+    gap: 8px;
+  }
+
+  .level-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    overflow: visible;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 0;
+  }
+
+  .level-card {
+    min-width: 0;
+    min-height: 66px;
+    grid-template-columns: 42px minmax(0, 1fr) auto;
+    gap: 8px;
+    padding: 8px;
+    border-width: 2px;
+    border-radius: 13px;
+    box-shadow: 3px 3px 0 var(--line);
+  }
+
+  .level-icon {
+    width: 42px;
+    height: 42px;
+    border-width: 2px;
+    border-radius: 11px;
+  }
+
+  .level-badge {
+    grid-column: auto;
+    padding: 4px 7px;
+    border-width: 2px;
+    font-size: 11px;
   }
 
   .stage-header {
@@ -1339,14 +1513,95 @@ button {
     font-size: 22px;
   }
 
+  .game-area {
+    min-height: 260px;
+    padding-top: 16px;
+  }
+
+  .empty-state {
+    max-width: 100%;
+  }
+
+  .terminal-card,
+  .game-intro,
+  .question-card,
+  .answer-reveal,
+  .soft-note {
+    border-width: 2px;
+    border-radius: 14px;
+    box-shadow: 3px 3px 0 var(--line);
+  }
+
   .game-intro {
     display: grid;
+  }
+
+  .game-panel {
+    gap: 12px;
+  }
+
+  .question-card {
+    gap: 14px;
+    padding: 14px;
+  }
+
+  .question-card h3 {
+    font-size: 19px;
   }
 
   .choice-grid,
   .bottle-grid,
   .mood-grid {
     grid-template-columns: 1fr;
+  }
+
+  .choice-button,
+  .bottle-card,
+  .mood-button {
+    border-width: 2px;
+    border-radius: 14px;
+    box-shadow: 3px 3px 0 var(--line);
+  }
+
+  .choice-button {
+    min-height: 62px;
+    font-size: 16px;
+  }
+
+  .bottle-card,
+  .mood-button {
+    min-height: 86px;
+  }
+
+  .media-shelf {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 8px;
+    border-width: 2px;
+    border-radius: 14px;
+    box-shadow: 3px 3px 0 var(--line);
+  }
+
+  .photo-frame {
+    padding: 8px 8px 22px;
+    border-width: 2px;
+    border-radius: 12px;
+    box-shadow: 3px 3px 0 var(--line);
+    transform: none;
+  }
+
+  .photo-frame:nth-child(even) {
+    transform: none;
+  }
+
+  .photo-frame img {
+    max-height: 220px;
+    border-width: 2px;
+  }
+
+  .meme-sticker {
+    width: 58px;
+    height: 58px;
   }
 
   .decor-sticker {
@@ -1369,5 +1624,33 @@ button {
   .decor-real-cat,
   .decor-real-dog {
     display: none;
+  }
+
+  .gift-dialog {
+    width: min(100% - 20px, 430px);
+  }
+
+  .gift-dialog-inner {
+    gap: 10px;
+    padding: 18px 14px;
+  }
+
+  .gift-dialog h3 {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 380px) {
+  .hero h1 {
+    font-size: 31px;
+  }
+
+  .level-card {
+    grid-template-columns: 38px minmax(0, 1fr);
+  }
+
+  .level-badge {
+    grid-column: 2;
+    justify-self: start;
   }
 }
