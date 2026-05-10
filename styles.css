@@ -1288,6 +1288,10 @@ button {
 }
 
 @media (max-width: 1120px) {
+  .love-decor {
+    z-index: 2;
+  }
+
   .app-shell {
     width: min(100% - 22px, 980px);
     padding: 18px 0 34px;
@@ -1374,26 +1378,28 @@ button {
     left: 12px;
     top: 86px;
     width: 108px;
-    opacity: 0.72;
+    opacity: 0.9;
   }
 
   .decor-real-dog {
     right: 12px;
     bottom: 54px;
     width: 108px;
-    opacity: 0.72;
+    opacity: 0.9;
   }
 
   .cutout-labubu-big {
     left: 10px;
     top: 210px;
     width: 82px;
+    opacity: 0.92;
   }
 
   .cutout-labubu-prince {
     right: 14px;
     top: 220px;
     width: 72px;
+    opacity: 0.92;
   }
 
   .cutout-star-pudding,
@@ -1402,6 +1408,7 @@ button {
     top: auto;
     bottom: 210px;
     width: 66px;
+    opacity: 0.9;
   }
 
   .cutout-star-hidden,
@@ -1410,6 +1417,7 @@ button {
     top: auto;
     bottom: 204px;
     width: 66px;
+    opacity: 0.9;
   }
 }
 
@@ -1674,27 +1682,27 @@ button {
   }
 
   .decor-real-cat {
-    left: -7px;
+    left: 5px;
     top: 10px;
-    width: 64px;
+    width: 72px;
     padding: 4px 4px 12px;
     border-width: 2px;
     border-radius: 8px;
     box-shadow: 4px 4px 0 rgba(43, 33, 24, 0.18);
-    opacity: 0.72;
+    opacity: 0.92;
     transform: rotate(-7deg);
   }
 
   .decor-real-dog {
-    right: -6px;
-    top: 168px;
+    right: 5px;
+    top: 154px;
     bottom: auto;
-    width: 64px;
+    width: 72px;
     padding: 4px 4px 12px;
     border-width: 2px;
     border-radius: 8px;
     box-shadow: 4px 4px 0 rgba(43, 33, 24, 0.18);
-    opacity: 0.72;
+    opacity: 0.92;
     transform: rotate(7deg);
   }
 
@@ -1709,33 +1717,33 @@ button {
   }
 
   .cutout-labubu-big {
-    left: 4px;
-    top: 136px;
-    width: 56px;
-    opacity: 0.82;
+    left: 8px;
+    top: 120px;
+    width: 64px;
+    opacity: 0.95;
     transform: rotate(-8deg);
   }
 
   .cutout-labubu-prince {
-    right: 8px;
+    right: 9px;
     top: 18px;
-    width: 52px;
-    opacity: 0.82;
+    width: 60px;
+    opacity: 0.95;
     transform: rotate(8deg);
   }
 
   .cutout-star-pudding {
-    left: 8px;
+    left: 9px;
     top: 252px;
-    width: 48px;
-    opacity: 0.75;
+    width: 56px;
+    opacity: 0.88;
   }
 
   .cutout-star-hidden {
-    right: 8px;
+    right: 9px;
     top: 300px;
-    width: 52px;
-    opacity: 0.75;
+    width: 60px;
+    opacity: 0.88;
   }
 
   .cutout-zsiga-red,
