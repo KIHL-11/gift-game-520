@@ -133,6 +133,9 @@ const SYNC_CONFIG = {
   leanCloudAppKey: "",
   leanCloudServerUrl: "",
   leanCloudClass: "GiftRecord",
+  cloudBaseEnvId: "",
+  cloudBaseSubmitFunction: "submitRecord",
+  cloudBaseListFunction: "listRecords",
   pairId: "rongrong-520",
 };
 
@@ -161,6 +164,7 @@ let progress = readJson(STORAGE_KEY);
 let savedAnswers = readJson(ANSWER_KEY);
 let selectedIndex = getCurrentIndex();
 let activeDialogLevel = null;
+let cloudBaseApp = null;
 
 function readJson(key) {
   try {
@@ -187,6 +191,10 @@ function isSyncReady() {
   return Boolean(activeSyncProvider());
 }
 
+function isCloudBaseReady() {
+  return Boolean(SYNC_CONFIG.cloudBaseEnvId && window.cloudbase);
+}
+
 function isLeanCloudReady() {
   return Boolean(SYNC_CONFIG.leanCloudAppId && SYNC_CONFIG.leanCloudAppKey && SYNC_CONFIG.leanCloudServerUrl);
 }
@@ -196,10 +204,21 @@ function isSupabaseReady() {
 }
 
 function activeSyncProvider() {
+  if (SYNC_CONFIG.provider === "cloudbase" && isCloudBaseReady()) return "cloudbase";
   if (SYNC_CONFIG.provider === "leancloud" && isLeanCloudReady()) return "leancloud";
   if (isSupabaseReady()) return "supabase";
+  if (isCloudBaseReady()) return "cloudbase";
   if (isLeanCloudReady()) return "leancloud";
   return "";
+}
+
+async function getCloudBaseApp() {
+  if (cloudBaseApp) return cloudBaseApp;
+  cloudBaseApp = window.cloudbase.init({
+    env: SYNC_CONFIG.cloudBaseEnvId,
+  });
+  await cloudBaseApp.auth().signInAnonymously();
+  return cloudBaseApp;
 }
 
 function syncEndpoint(query = "") {
@@ -862,7 +881,14 @@ async function syncRecord(level, button) {
       gift: level.gift,
       summary: record.summary,
     };
-    if (activeSyncProvider() === "leancloud") {
+    if (activeSyncProvider() === "cloudbase") {
+      const app = await getCloudBaseApp();
+      const response = await app.callFunction({
+        name: SYNC_CONFIG.cloudBaseSubmitFunction,
+        data: payload,
+      });
+      if (response.result && response.result.ok === false) throw new Error(response.result.message || "CloudBase failed");
+    } else if (activeSyncProvider() === "leancloud") {
       const response = await fetch(leanCloudEndpoint(), {
         method: "POST",
         headers: leanCloudHeaders({ "Content-Type": "application/json" }),
@@ -896,7 +922,12 @@ function renderSyncBoard(message = "") {
     `;
     return;
   }
-  const provider = activeSyncProvider() === "leancloud" ? "LeanCloud" : "Supabase";
+  const providerNames = {
+    cloudbase: "腾讯云 CloudBase",
+    leancloud: "LeanCloud",
+    supabase: "Supabase",
+  };
+  const provider = providerNames[activeSyncProvider()] || "云端";
   dom.syncStatus.textContent = message || `已连接 ${provider}`;
 }
 
@@ -909,7 +940,15 @@ async function loadSyncRecords() {
   dom.syncStatus.textContent = "读取中...";
   try {
     let records = [];
-    if (activeSyncProvider() === "leancloud") {
+    if (activeSyncProvider() === "cloudbase") {
+      const app = await getCloudBaseApp();
+      const response = await app.callFunction({
+        name: SYNC_CONFIG.cloudBaseListFunction,
+        data: { pair_id: SYNC_CONFIG.pairId },
+      });
+      if (response.result && response.result.ok === false) throw new Error(response.result.message || "CloudBase failed");
+      records = response.result.records || [];
+    } else if (activeSyncProvider() === "leancloud") {
       const where = encodeURIComponent(JSON.stringify({ pair_id: SYNC_CONFIG.pairId }));
       const query = `?where=${where}&order=-createdAt&limit=20`;
       const response = await fetch(leanCloudEndpoint(query), {
