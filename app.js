@@ -138,6 +138,7 @@ const SYNC_CONFIG = {
   cloudBaseListFunction: "listRecords",
   pairId: "rongrong-520",
 };
+const ACTIVE_PAIR_ID = PREVIEW_ALL ? `${SYNC_CONFIG.pairId}-preview` : SYNC_CONFIG.pairId;
 
 const dom = {
   daysLeft: document.querySelector("#daysLeft"),
@@ -875,7 +876,7 @@ async function syncRecord(level, button) {
   button.textContent = "同步中...";
   try {
     const payload = {
-      pair_id: SYNC_CONFIG.pairId,
+      pair_id: ACTIVE_PAIR_ID,
       level_date: level.date,
       level_title: level.title,
       gift: level.gift,
@@ -944,12 +945,12 @@ async function loadSyncRecords() {
       const app = await getCloudBaseApp();
       const response = await app.callFunction({
         name: SYNC_CONFIG.cloudBaseListFunction,
-        data: { pair_id: SYNC_CONFIG.pairId },
+        data: { pair_id: ACTIVE_PAIR_ID },
       });
       if (response.result && response.result.ok === false) throw new Error(response.result.message || "CloudBase failed");
       records = response.result.records || [];
     } else if (activeSyncProvider() === "leancloud") {
-      const where = encodeURIComponent(JSON.stringify({ pair_id: SYNC_CONFIG.pairId }));
+      const where = encodeURIComponent(JSON.stringify({ pair_id: ACTIVE_PAIR_ID }));
       const query = `?where=${where}&order=-createdAt&limit=20`;
       const response = await fetch(leanCloudEndpoint(query), {
         headers: leanCloudHeaders(),
@@ -958,7 +959,7 @@ async function loadSyncRecords() {
       const data = await response.json();
       records = data.results || [];
     } else {
-      const query = `?pair_id=eq.${encodeURIComponent(SYNC_CONFIG.pairId)}&select=level_date,level_title,gift,summary,created_at&order=created_at.desc&limit=20`;
+      const query = `?pair_id=eq.${encodeURIComponent(ACTIVE_PAIR_ID)}&select=level_date,level_title,gift,summary,created_at&order=created_at.desc&limit=20`;
       const response = await fetch(syncEndpoint(query), {
         headers: syncHeaders(),
       });
