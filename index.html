@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>5.20 慢慢靠近计划</title>
-    <link rel="stylesheet" href="./styles.css?v=sync-theme-1" />
+    <link rel="stylesheet" href="./styles.css?v=cloud-sync-1" />
   </head>
   <body>
     <div class="love-decor" aria-hidden="true">
@@ -69,6 +69,15 @@
         <button class="ghost-button" id="resetBtn" type="button">重置收藏册</button>
       </section>
 
+      <section class="sync-board" aria-label="收到的小记录">
+        <div class="section-title">
+          <span>收到的小记录</span>
+          <small id="syncStatus">未连接云端</small>
+        </div>
+        <div id="syncList" class="sync-list"></div>
+        <button class="ghost-button" id="refreshSync" type="button">刷新记录</button>
+      </section>
+
       <section class="layout">
         <aside class="timeline" aria-label="礼物档案">
           <div class="section-title">
@@ -104,10 +113,11 @@
         <h3 id="giftTitle">今天的小礼物</h3>
         <div id="giftMedia" class="dialog-media"></div>
         <p id="giftMessage"></p>
+        <button id="syncDialogRecord" class="ghost-button" type="button" hidden>同步给他</button>
         <button id="closeDialog" class="primary-button" type="button">收进收藏册</button>
       </div>
     </dialog>
 
-    <script src="./app.js?v=sync-theme-1"></script>
+    <script src="./app.js?v=cloud-sync-1"></script>
   </body>
 </html>

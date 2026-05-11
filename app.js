@@ -124,6 +124,12 @@ const STORAGE_KEY = "gift-quest-progress-v5";
 const ANSWER_KEY = "gift-quest-answers-v4";
 const FINAL_DAY = "2026-05-20";
 const PREVIEW_ALL = new URLSearchParams(location.search).get("preview") === "1";
+const SYNC_CONFIG = {
+  supabaseUrl: "",
+  supabaseAnonKey: "",
+  table: "gift_records",
+  pairId: "rongrong-520",
+};
 
 const dom = {
   daysLeft: document.querySelector("#daysLeft"),
@@ -139,12 +145,17 @@ const dom = {
   giftTitle: document.querySelector("#giftTitle"),
   giftMessage: document.querySelector("#giftMessage"),
   giftMedia: document.querySelector("#giftMedia"),
+  syncDialogRecord: document.querySelector("#syncDialogRecord"),
   closeDialog: document.querySelector("#closeDialog"),
+  syncStatus: document.querySelector("#syncStatus"),
+  syncList: document.querySelector("#syncList"),
+  refreshSync: document.querySelector("#refreshSync"),
 };
 
 let progress = readJson(STORAGE_KEY);
 let savedAnswers = readJson(ANSWER_KEY);
 let selectedIndex = getCurrentIndex();
+let activeDialogLevel = null;
 
 function readJson(key) {
   try {
@@ -156,6 +167,32 @@ function readJson(key) {
 
 function writeJson(key, value) {
   localStorage.setItem(key, JSON.stringify(value));
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function isSyncReady() {
+  return Boolean(SYNC_CONFIG.supabaseUrl && SYNC_CONFIG.supabaseAnonKey);
+}
+
+function syncEndpoint(query = "") {
+  const base = SYNC_CONFIG.supabaseUrl.replace(/\/$/, "");
+  return `${base}/rest/v1/${SYNC_CONFIG.table}${query}`;
+}
+
+function syncHeaders(extra = {}) {
+  return {
+    apikey: SYNC_CONFIG.supabaseAnonKey,
+    Authorization: `Bearer ${SYNC_CONFIG.supabaseAnonKey}`,
+    ...extra,
+  };
 }
 
 function todayKey() {
@@ -337,11 +374,14 @@ function renderCompleted(level) {
       ${record ? `<p class="saved-note">${record.summary}</p>` : ""}
       <div class="button-row">
         <button class="primary-button" type="button" id="reviewGift">查看这一份</button>
+        ${record ? `<button class="ghost-button" type="button" id="syncCompleted">同步给他</button>` : ""}
         ${nextIndex >= 0 && nextIndex !== selectedIndex ? `<button class="ghost-button" type="button" id="nextLevel">读取下一格</button>` : ""}
       </div>
     </div>
   `;
   document.querySelector("#reviewGift").addEventListener("click", () => openGift(level));
+  const syncButton = document.querySelector("#syncCompleted");
+  if (syncButton) syncButton.addEventListener("click", () => syncRecord(level, syncButton));
   const nextButton = document.querySelector("#nextLevel");
   if (nextButton) {
     nextButton.addEventListener("click", () => {
@@ -746,13 +786,104 @@ function finishLevel(level, summary) {
 }
 
 function openGift(level) {
+  activeDialogLevel = level;
+  const record = savedAnswers[level.date];
   dom.giftTitle.textContent = level.gift;
   dom.giftMessage.textContent = [level.message, level.romance, level.comfort].filter(Boolean).join("\n\n");
   dom.giftMedia.innerHTML = mediaMarkup(level, true);
+  dom.syncDialogRecord.hidden = !record;
+  dom.syncDialogRecord.textContent = "同步给他";
   if (typeof dom.dialog.showModal === "function") {
     dom.dialog.showModal();
   } else {
     alert(`${level.gift}\n${dom.giftMessage.textContent}`);
+  }
+}
+
+async function syncRecord(level, button) {
+  const record = savedAnswers[level.date];
+  if (!record) return;
+
+  if (!isSyncReady()) {
+    const text = `小记录｜${level.title}\n${record.summary}`;
+    try {
+      await navigator.clipboard.writeText(text);
+      button.textContent = "已复制，先发微信";
+    } catch {
+      button.textContent = "未连接云端";
+    }
+    renderSyncBoard("还没连接云端。已尽量复制小纸条，可以先微信发给你。");
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = "同步中...";
+  try {
+    const payload = {
+      pair_id: SYNC_CONFIG.pairId,
+      level_date: level.date,
+      level_title: level.title,
+      gift: level.gift,
+      summary: record.summary,
+    };
+    const response = await fetch(syncEndpoint(), {
+      method: "POST",
+      headers: syncHeaders({
+        "Content-Type": "application/json",
+        Prefer: "return=minimal",
+      }),
+      body: JSON.stringify(payload),
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    button.textContent = "已同步";
+    await loadSyncRecords();
+  } catch {
+    button.disabled = false;
+    button.textContent = "同步失败，再试一次";
+  }
+}
+
+function renderSyncBoard(message = "") {
+  if (!isSyncReady()) {
+    dom.syncStatus.textContent = "未连接云端";
+    dom.syncList.innerHTML = `
+      <p class="sync-empty">${message || "同步功能已做好，填入 Supabase URL 和 anon key 后就能使用。"}</p>
+    `;
+    return;
+  }
+  dom.syncStatus.textContent = message || "已连接云端";
+}
+
+async function loadSyncRecords() {
+  if (!isSyncReady()) {
+    renderSyncBoard();
+    return;
+  }
+
+  dom.syncStatus.textContent = "读取中...";
+  try {
+    const query = `?pair_id=eq.${encodeURIComponent(SYNC_CONFIG.pairId)}&select=level_date,level_title,gift,summary,created_at&order=created_at.desc&limit=20`;
+    const response = await fetch(syncEndpoint(query), {
+      headers: syncHeaders(),
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const records = await response.json();
+    dom.syncStatus.textContent = records.length ? `共 ${records.length} 条` : "暂无记录";
+    dom.syncList.innerHTML = records.length
+      ? records
+          .map(
+            (record) => `
+              <article class="sync-record">
+                <span>${escapeHtml(record.level_date || "")}</span>
+                <strong>${escapeHtml(record.level_title || record.gift || "小记录")}</strong>
+                <p>${escapeHtml(record.summary || "")}</p>
+              </article>
+            `,
+          )
+          .join("")
+      : `<p class="sync-empty">还没有收到记录。</p>`;
+  } catch {
+    renderSyncBoard("云端读取失败，检查 Supabase 配置和表权限。");
   }
 }
 
@@ -764,6 +895,10 @@ function render() {
 }
 
 dom.closeDialog.addEventListener("click", () => dom.dialog.close());
+dom.syncDialogRecord.addEventListener("click", () => {
+  if (activeDialogLevel) syncRecord(activeDialogLevel, dom.syncDialogRecord);
+});
+dom.refreshSync.addEventListener("click", loadSyncRecords);
 dom.resetBtn.addEventListener("click", () => {
   progress = {};
   savedAnswers = {};
@@ -774,3 +909,4 @@ dom.resetBtn.addEventListener("click", () => {
 });
 
 render();
+loadSyncRecords();

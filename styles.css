@@ -527,6 +527,7 @@ button {
 
 .hero,
 .progress-strip,
+.sync-board,
 .timeline,
 .game-stage,
 .gift-dialog-inner {
@@ -922,6 +923,48 @@ button {
   font-size: 27px;
   letter-spacing: 0;
   line-height: 1.25;
+}
+
+.sync-board {
+  display: grid;
+  gap: 12px;
+  margin: 0 0 18px;
+  padding: 14px 16px;
+}
+
+.sync-list {
+  display: grid;
+  gap: 10px;
+}
+
+.sync-record,
+.sync-empty {
+  margin: 0;
+  padding: 12px;
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  background: rgba(255, 247, 223, 0.92);
+}
+
+.sync-record {
+  display: grid;
+  gap: 6px;
+}
+
+.sync-record span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.sync-record strong {
+  line-height: 1.35;
+}
+
+.sync-record p {
+  margin: 0;
+  color: #4a3728;
+  line-height: 1.65;
 }
 
 .game-area {
@@ -1741,6 +1784,7 @@ button {
 
   .hero,
   .progress-strip,
+  .sync-board,
   .timeline,
   .game-stage,
   .gift-dialog-inner {
