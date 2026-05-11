@@ -125,9 +125,14 @@ const ANSWER_KEY = "gift-quest-answers-v4";
 const FINAL_DAY = "2026-05-20";
 const PREVIEW_ALL = new URLSearchParams(location.search).get("preview") === "1";
 const SYNC_CONFIG = {
+  provider: "supabase",
   supabaseUrl: "https://znicrtdkhevmkcqeyuqq.supabase.co",
   supabaseAnonKey: "sb_publishable_o0RZgcLbW6K29H0X9ylgWg_n2dUx-p5",
-  table: "gift_records",
+  supabaseTable: "gift_records",
+  leanCloudAppId: "",
+  leanCloudAppKey: "",
+  leanCloudServerUrl: "",
+  leanCloudClass: "GiftRecord",
   pairId: "rongrong-520",
 };
 
@@ -179,12 +184,27 @@ function escapeHtml(value) {
 }
 
 function isSyncReady() {
+  return Boolean(activeSyncProvider());
+}
+
+function isLeanCloudReady() {
+  return Boolean(SYNC_CONFIG.leanCloudAppId && SYNC_CONFIG.leanCloudAppKey && SYNC_CONFIG.leanCloudServerUrl);
+}
+
+function isSupabaseReady() {
   return Boolean(SYNC_CONFIG.supabaseUrl && SYNC_CONFIG.supabaseAnonKey);
+}
+
+function activeSyncProvider() {
+  if (SYNC_CONFIG.provider === "leancloud" && isLeanCloudReady()) return "leancloud";
+  if (isSupabaseReady()) return "supabase";
+  if (isLeanCloudReady()) return "leancloud";
+  return "";
 }
 
 function syncEndpoint(query = "") {
   const base = SYNC_CONFIG.supabaseUrl.replace(/\/rest\/v1\/?$/, "").replace(/\/$/, "");
-  return `${base}/rest/v1/${SYNC_CONFIG.table}${query}`;
+  return `${base}/rest/v1/${SYNC_CONFIG.supabaseTable}${query}`;
 }
 
 function syncHeaders(extra = {}) {
@@ -196,6 +216,19 @@ function syncHeaders(extra = {}) {
     headers.Authorization = `Bearer ${SYNC_CONFIG.supabaseAnonKey}`;
   }
   return headers;
+}
+
+function leanCloudEndpoint(query = "") {
+  const base = SYNC_CONFIG.leanCloudServerUrl.replace(/\/$/, "");
+  return `${base}/1.1/classes/${SYNC_CONFIG.leanCloudClass}${query}`;
+}
+
+function leanCloudHeaders(extra = {}) {
+  return {
+    "X-LC-Id": SYNC_CONFIG.leanCloudAppId,
+    "X-LC-Key": SYNC_CONFIG.leanCloudAppKey,
+    ...extra,
+  };
 }
 
 function todayKey() {
@@ -829,15 +862,24 @@ async function syncRecord(level, button) {
       gift: level.gift,
       summary: record.summary,
     };
-    const response = await fetch(syncEndpoint(), {
-      method: "POST",
-      headers: syncHeaders({
-        "Content-Type": "application/json",
-        Prefer: "return=minimal",
-      }),
-      body: JSON.stringify(payload),
-    });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    if (activeSyncProvider() === "leancloud") {
+      const response = await fetch(leanCloudEndpoint(), {
+        method: "POST",
+        headers: leanCloudHeaders({ "Content-Type": "application/json" }),
+        body: JSON.stringify(payload),
+      });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    } else {
+      const response = await fetch(syncEndpoint(), {
+        method: "POST",
+        headers: syncHeaders({
+          "Content-Type": "application/json",
+          Prefer: "return=minimal",
+        }),
+        body: JSON.stringify(payload),
+      });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    }
     button.textContent = "已同步";
     await loadSyncRecords();
   } catch {
@@ -854,7 +896,8 @@ function renderSyncBoard(message = "") {
     `;
     return;
   }
-  dom.syncStatus.textContent = message || "已连接云端";
+  const provider = activeSyncProvider() === "leancloud" ? "LeanCloud" : "Supabase";
+  dom.syncStatus.textContent = message || `已连接 ${provider}`;
 }
 
 async function loadSyncRecords() {
@@ -865,12 +908,24 @@ async function loadSyncRecords() {
 
   dom.syncStatus.textContent = "读取中...";
   try {
-    const query = `?pair_id=eq.${encodeURIComponent(SYNC_CONFIG.pairId)}&select=level_date,level_title,gift,summary,created_at&order=created_at.desc&limit=20`;
-    const response = await fetch(syncEndpoint(query), {
-      headers: syncHeaders(),
-    });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const records = await response.json();
+    let records = [];
+    if (activeSyncProvider() === "leancloud") {
+      const where = encodeURIComponent(JSON.stringify({ pair_id: SYNC_CONFIG.pairId }));
+      const query = `?where=${where}&order=-createdAt&limit=20`;
+      const response = await fetch(leanCloudEndpoint(query), {
+        headers: leanCloudHeaders(),
+      });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const data = await response.json();
+      records = data.results || [];
+    } else {
+      const query = `?pair_id=eq.${encodeURIComponent(SYNC_CONFIG.pairId)}&select=level_date,level_title,gift,summary,created_at&order=created_at.desc&limit=20`;
+      const response = await fetch(syncEndpoint(query), {
+        headers: syncHeaders(),
+      });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      records = await response.json();
+    }
     dom.syncStatus.textContent = records.length ? `共 ${records.length} 条` : "暂无记录";
     dom.syncList.innerHTML = records.length
       ? records
