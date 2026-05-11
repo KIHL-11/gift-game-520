@@ -136,7 +136,7 @@ const SYNC_CONFIG = {
   cloudBaseEnvId: "rongrong0319-d1gz2i7rp82781b18",
   cloudBaseSubmitFunction: "submitRecord",
   cloudBaseListFunction: "listRecords",
-  pairId: "rongrong-520",
+  pairId: "rongrong-520-live",
 };
 const ACTIVE_PAIR_ID = PREVIEW_ALL ? `${SYNC_CONFIG.pairId}-preview` : SYNC_CONFIG.pairId;
 
