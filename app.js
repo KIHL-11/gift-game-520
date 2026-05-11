@@ -125,7 +125,7 @@ const ANSWER_KEY = "gift-quest-answers-v4";
 const FINAL_DAY = "2026-05-20";
 const PREVIEW_ALL = new URLSearchParams(location.search).get("preview") === "1";
 const SYNC_CONFIG = {
-  provider: "supabase",
+  provider: "cloudbase",
   supabaseUrl: "https://znicrtdkhevmkcqeyuqq.supabase.co",
   supabaseAnonKey: "sb_publishable_o0RZgcLbW6K29H0X9ylgWg_n2dUx-p5",
   supabaseTable: "gift_records",
@@ -133,7 +133,7 @@ const SYNC_CONFIG = {
   leanCloudAppKey: "",
   leanCloudServerUrl: "",
   leanCloudClass: "GiftRecord",
-  cloudBaseEnvId: "",
+  cloudBaseEnvId: "rongrong0319-d1gz2i7rp82781b18",
   cloudBaseSubmitFunction: "submitRecord",
   cloudBaseListFunction: "listRecords",
   pairId: "rongrong-520",
