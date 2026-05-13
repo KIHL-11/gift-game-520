@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>5.20 慢慢靠近计划</title>
+    <link rel="stylesheet" href="./styles.css?v=third-0514-only-2" />
+  </head>
+  <body>
+    <div class="love-decor" aria-hidden="true">
+      <span>花花</span>
+      <span>猫猫</span>
+      <span>小狗</span>
+      <span>慢慢来</span>
+      <img class="decor-sticker decor-anime-cat" src="./assets/stickers/anime-cat.svg" alt="" />
+      <img class="decor-sticker decor-anime-dog" src="./assets/stickers/anime-puppy.svg" alt="" />
+      <img class="decor-sticker decor-sparkle-a" src="./assets/stickers/manga-sparkle.svg" alt="" />
+      <img class="decor-sticker decor-bubble" src="./assets/stickers/manga-bubble.svg" alt="" />
+      <img class="decor-sticker decor-cassette" src="./assets/stickers/retro-cassette.svg" alt="" />
+      <img class="decor-sticker decor-game-card" src="./assets/stickers/retro-game-card.svg" alt="" />
+      <img class="decor-sticker decor-ticket" src="./assets/stickers/blindbox-ticket.svg" alt="" />
+      <img class="toy-cutout cutout-labubu-big" src="./assets/cutouts/selected/labubu-big.png" alt="" />
+      <img class="toy-cutout cutout-labubu-prince" src="./assets/cutouts/selected/labubu-prince.png" alt="" />
+      <img class="toy-cutout cutout-star-pudding" src="./assets/cutouts/selected/star-pudding.png" alt="" />
+      <img class="toy-cutout cutout-star-hidden" src="./assets/cutouts/selected/star-hidden.png" alt="" />
+      <img class="toy-cutout cutout-zsiga-red" src="./assets/cutouts/selected/zsiga-redhood.png" alt="" />
+      <img class="toy-cutout cutout-zsiga-blue" src="./assets/cutouts/selected/zsiga-blue.png" alt="" />
+      <img class="toy-cutout cutout-hirono-panda" src="./assets/cutouts/selected/hirono-panda.png" alt="" />
+      <img class="toy-cutout cutout-hirono-tv" src="./assets/cutouts/selected/hirono-tv.png" alt="" />
+      <img class="decor-sticker decor-flower-one" src="./assets/stickers/flower-daisy.svg" alt="" />
+      <img class="decor-sticker decor-flower-two" src="./assets/stickers/flower-tulip.svg" alt="" />
+      <figure class="decor-photo decor-real-cat">
+        <img src="./assets/photos/real-golden-cat.jpg" alt="" />
+      </figure>
+      <figure class="decor-photo decor-real-dog">
+        <img src="./assets/photos/real-puppy.jpg" alt="" />
+      </figure>
+    </div>
+
+    <main class="app-shell">
+      <section class="hero" aria-label="5.20 慢慢靠近计划">
+        <div class="hero-art" aria-hidden="true">
+          <img class="gift-planet" src="./assets/stickers/flower-bouquet.svg" alt="" />
+          <img class="spark spark-one" src="./assets/spark.svg" alt="" />
+          <img class="spark spark-two" src="./assets/spark.svg" alt="" />
+          <img class="moon" src="./assets/moon.svg" alt="" />
+        </div>
+        <div class="hero-copy">
+          <h1>小小收藏档案</h1>
+          <p class="subtitle">
+            每一份礼物都是一个小档案。先不急着说答案，我们一关一关打开，慢慢认识彼此。
+          </p>
+        </div>
+        <div class="countdown-panel" aria-live="polite">
+          <span class="count-label">DAYS TO 5.20</span>
+          <strong id="daysLeft">--</strong>
+          <span class="count-unit">天</span>
+        </div>
+      </section>
+
+      <section class="progress-strip" aria-label="靠近进度">
+        <div>
+          <span class="muted">已收集</span>
+          <strong id="progressText">0 / 0</strong>
+        </div>
+        <div class="progress-track">
+          <span id="progressBar"></span>
+        </div>
+        <button class="ghost-button" id="resetBtn" type="button">重置收藏册</button>
+      </section>
+
+      <section class="sync-board" aria-label="收到的小记录">
+        <div class="section-title">
+          <span>收到的小记录</span>
+          <small id="syncStatus">未连接云端</small>
+        </div>
+        <div id="syncList" class="sync-list"></div>
+        <button class="ghost-button" id="refreshSync" type="button">刷新记录</button>
+      </section>
+
+      <section class="layout">
+        <aside class="timeline" aria-label="礼物档案">
+          <div class="section-title">
+            <span>收藏档案</span>
+            <small>一关一关读取</small>
+          </div>
+          <div id="levelList" class="level-list"></div>
+        </aside>
+
+        <section class="game-stage" aria-label="互动区域">
+          <div class="stage-header">
+            <div>
+              <p id="stageDate" class="stage-date">SELECT FILE</p>
+              <h2 id="stageTitle">等待打开</h2>
+            </div>
+            <span id="stageStatus" class="status-pill">READY</span>
+          </div>
+
+          <div id="gameArea" class="game-area">
+            <div class="empty-state terminal-card">
+              <img src="./assets/gift-box.svg" alt="" />
+              <p>从左侧选择已经解锁的档案，开始交换一点点彼此。</p>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <dialog id="giftDialog" class="gift-dialog">
+      <div class="gift-dialog-inner">
+        <img src="./assets/gift-box.svg" alt="" />
+        <p class="eyebrow">FILE UNLOCKED</p>
+        <h3 id="giftTitle">今天的小礼物</h3>
+        <div id="giftMedia" class="dialog-media"></div>
+        <p id="giftMessage"></p>
+        <button id="syncDialogRecord" class="ghost-button" type="button" hidden>同步给他</button>
+        <button id="closeDialog" class="primary-button" type="button">收进收藏册</button>
+      </div>
+    </dialog>
+
+    <script src="https://unpkg.com/@cloudbase/js-sdk@2/dist/cloudbase.full.js"></script>
+    <script src="./app.js?v=third-0514-only-2"></script>
+  </body>
+</html>
